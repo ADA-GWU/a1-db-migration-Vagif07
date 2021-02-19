@@ -12,5 +12,5 @@
 			4.3.1 - init_db() - initializes the db
 			4.3.2 - migrate() - runs the migration
 			4.3.3 - rollback() - runs the rollback
-			### !Note: please don't run the commands out of the order
-		### !Note: If for some reason script fails to connect to the server, run the sql commands inside the files mentioned in step 1, 2 and 3 manually.
+			**!Note**: please don't run the commands out of the order
+		**!Note**: If for some reason script fails to connect to the server, run the sql commands inside the files mentioned in step 1, 2 and 3 manually.
