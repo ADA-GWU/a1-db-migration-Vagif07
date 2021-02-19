@@ -6,17 +6,14 @@ ALTER TABLE STUDENTS
 	ALTER COLUMN st_last type varchar(30),
 	ALTER COLUMN st_name type varchar(30);
   
---- Renaming interests TABLE TO interests_old ---
-ALTER TABLE INTERESTS RENAME TO interests_old;
+--- ADD NEW COLUMN TO THE INTERESTS TABLE ---
+ALTER TABLE INTERESTS ADD COLUMN interests text[];
 
---- CREATING NEW INTERESTS TABLE WITH A DESIRED STRUCTURE ---
-CREATE TABLE INTERESTS ( 
-	student_id integer,
-	interests  text[], 
-	FOREIGN KEY (student_id) REFERENCES STUDENTS(student_id)
-);
+--- INSERT VALUES AS ARRAY GROUPED BY STUDENT_ID ---
+INSERT INTO INTERESTS (student_id, interests) SELECT student_id, array_agg(interest) FROM interests GROUP BY (student_id);
 
---- INSERTING DATA TO THE NEW DATABASE ---
-insert INTO INTERESTS VALUES (1,'{"Tennis","Literature","Math","Chemistry"}');
-insert INTO INTERESTS VALUES (2,'{"Tennis","Football"}');
-insert INTO INTERESTS VALUES (3,'{"Math","Music","Chess"}');
+--- FILTER COLUMNS FROM EMPTY VALUES ---
+DELETE FROM INTERESTS WHERE interests.interests is null;
+
+--- REMOVE INTEREST COLUMNS FORM INTERESTS TABLE ---
+ALTER TABLE INTERESTS DROP COLUMN interest;
